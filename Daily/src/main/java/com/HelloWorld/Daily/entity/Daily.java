@@ -18,10 +18,11 @@ public class Daily extends Common {
     private boolean isPublic;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Member member;
 
-    public static Daily of(DailyDTO.RequestDTO dailyDTO) {
+    public static Daily of(DailyDTO.RequestDTO dailyDTO, Member member) {
         return Daily.builder()
+                .member(member)
                 .isPublic(dailyDTO.isPublic())
                 .build();
     }

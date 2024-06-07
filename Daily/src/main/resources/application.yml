@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: Daily
+
+jwt:
+  secret: 39afe40b7dd4cb5b96f7031fcd8375663914aa65fc9673707ce4e9323e51feee
+  exprired : 86400000

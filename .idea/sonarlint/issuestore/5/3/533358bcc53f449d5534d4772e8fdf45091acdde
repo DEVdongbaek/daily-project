@@ -1,0 +1,6 @@
+
+
+java:S1192!"GDefine a constant instead of duplicating this literal "/login" 4 times.(Œ¦¢üÿÿÿÿ8ûÁÕ·ş1J$4ad18ea7-1130-493f-a9e0-503ebbb7b184
+œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ïÅœ‘8É´Ì·ş1J$0f94cd25-b7e4-4ba9-8cd7-53430eaef8c3
+m	java:S106A"+Replace this use of System.out by a logger.(×§şÖ8„ÂÕ·ş1J$08d107aa-3560-40f9-b233-9a70a75caefe
+m	java:S106B"+Replace this use of System.out by a logger.(˜ŒÕ8„ÂÕ·ş1J$35dda967-9e0c-4483-be3b-126a91bc102f

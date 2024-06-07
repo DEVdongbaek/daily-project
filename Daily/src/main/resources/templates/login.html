@@ -1,0 +1,17 @@
+<form action="/login" id="loginForm" th:action th:object="${requestDTO}" method="post">
+    <div>
+        <label for="loginId">Username:</label>
+        <input type="text" id="loginId" th:field="*{userName}" class="form-control" >
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" th:field="*{userPassword}" class="form-control" >
+    </div>
+    <div>
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Login</button>
+    </div>
+</form>
+
+
+
+

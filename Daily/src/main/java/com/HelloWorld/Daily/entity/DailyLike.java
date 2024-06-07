@@ -17,7 +17,8 @@ public class DailyLike extends Common {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private List<String> users = new ArrayList<>(); // 해당 필드로 좋아요 수 체크
+    @Builder.Default
+    private List<String> members = new ArrayList<>(); // 해당 필드로 좋아요 수 체크
 
     @OneToOne(fetch = FetchType.LAZY)
     private Daily daily;
@@ -29,14 +30,14 @@ public class DailyLike extends Common {
     }
 
     public void addLike(String userName) {
-        this.users.add(userName);
+        this.members.add(userName);
     }
 
     public void removeLike(String userName) {
-        this.users.remove(userName);
+        this.members.remove(userName);
     }
 
     public int getUsersCount() {
-        return this.getUsers().size();
+        return this.members.size();
     }
 }
