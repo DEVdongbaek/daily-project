@@ -1,4 +1,6 @@
 
-œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Š§õ†8øÙ¡éı1J$c2ad3696-9ea8-4c2f-b5a2-2727f45a3074
-‚
-java:S1118":Add a private constructor to hide the implicit public one.(ûô£»ùÿÿÿÿ8ùÙ¡éı1J$83d9ef67-8cbd-4aaa-b8dd-f0665fc0b136
+8
+java:S1700%"Rename field "responseDTOS"(ÍÌü8¦ÿŠÆ‚2
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Š§õ†8§ÿŠÆ‚2
+\
+java:S1118":Add a private constructor to hide the implicit public one.(ûô£»ùÿÿÿÿ8ªÿŠÆ‚2

@@ -29,11 +29,17 @@ public class DailyLike extends Common {
                 .build();
     }
 
+    public boolean isClickedLike(String userName) {
+        if (this.members.contains(userName)) {
+            return true;
+        }
+        return false;
+    }
     public void addLike(String userName) {
         this.members.add(userName);
     }
 
-    public void removeLike(String userName) {
+    public void disLike(String userName) {
         this.members.remove(userName);
     }
 

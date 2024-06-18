@@ -7,8 +7,7 @@ import lombok.*;
 public class MemberDTO {
 
     @Getter
-    @NoArgsConstructor
-    @Setter
+    @Builder
     public static class RequestDTO {
 
         private String userName;
