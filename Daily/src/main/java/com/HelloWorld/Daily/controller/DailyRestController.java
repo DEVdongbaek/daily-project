@@ -20,9 +20,10 @@ public class DailyRestController {
 
     // 홈에서 띄워지는 Daily
     // Paging이 있어야 함.
-    @GetMapping("/dailies/{startId}")
-    public ResponseEntity<DailyDTO.ResponseDTOs> getDailies(@AuthenticationPrincipal UserDetails userDetails, @PathVariable int startId){
-        return new ResponseEntity<>(dailyService.getDailies(userDetails.getUsername(), startId), HttpStatus.OK);
+    @GetMapping("/dailies/{offset}/{limit}")
+    public ResponseEntity<DailyDTO.ResponseDTOs> getDailies(@AuthenticationPrincipal UserDetails userDetails, @PathVariable int offset, @PathVariable int limit){
+
+        return new ResponseEntity<>(dailyService.getDailies(userDetails.getUsername(), offset, limit), HttpStatus.OK);
     }
 
     // TODO : 클릭시 보여지는 디테일 페이지
@@ -34,6 +35,9 @@ public class DailyRestController {
     // Daily 생성
     @PostMapping("/daily")
     public void postDailies(@AuthenticationPrincipal UserDetails userDetails, @RequestBody DailyDTO.RequestDTO requestDTO){
+
+        System.out.println(requestDTO.isItIsPublic());
+
         dailyService.saveDaily(userDetails.getUsername(), requestDTO);
     }
 

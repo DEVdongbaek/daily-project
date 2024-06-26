@@ -1,3 +1,4 @@
 
-ˆ	java:S1123"FDefine and throw a dedicated exception instead of using a generic one.(þ‡†—8É’ËÇ‚2J$af68af0d-9f2c-4cad-a0ed-33ab756fc69e
-œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ïý·‹8Ë’ËÇ‚2J$d8c29510-dc4f-450f-9642-9b11c103b522
+ˆ	java:S1123"FDefine and throw a dedicated exception instead of using a generic one.(þ‡†—8³„Ø–…2J$d18513f8-1523-49a8-9eb3-25c61db09799
+œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ïý·‹8´„Ø–…2J$e362093e-339b-471f-b094-b0835607d9c3
+m	java:S106%"+Replace this use of System.out by a logger.(×óÙÒ8³çù–…2J$f8a1bf1e-d557-46e9-ab4d-d8478286c57c

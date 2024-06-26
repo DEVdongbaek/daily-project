@@ -23,7 +23,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String token = resolveToken((HttpServletRequest) servletRequest);
 
         // 2. validateToken으로 토큰 유효성 검사
-        if (token != null && jwtTokenProvider.validateToken(token)) {
+        if (token != null && jwtTokenProvider.validateToken((HttpServletRequest) servletRequest, token)) {
 
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
 
@@ -41,6 +41,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         Cookie[] list = request.getCookies();
 
+        if (list == null) {
+            return null;
+        }
+
         for(Cookie cookie:list) {
             if(cookie.getName().equals("Authorization")) {
                 bearerToken = cookie.getValue();
@@ -54,5 +58,4 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         return null;
     }
-
 }

@@ -21,8 +21,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DailyService {
 
-    private static final int PAGESIZE = 5;
-
     private final DailyRepository dailyRepository;
 
     private final MemberRepository memberRepository;
@@ -32,9 +30,11 @@ public class DailyService {
     private final DailyContentRepository dailyContentRepository;
 
     @Transactional(readOnly = true)
-    public DailyDTO.ResponseDTOs getDailies(String memberName, int startId){
+    public DailyDTO.ResponseDTOs getDailies(String memberName, int offset, int limit){
 
-        List<Daily> dailies = getDailyList(startId);
+        List<Daily> dailies = getDailyList(offset, limit);
+
+        System.out.println("Daily Size : "  + dailies.size());
 
         return DailyDTO.ResponseDTOs.of(
                 dailies.stream().map(
@@ -76,7 +76,7 @@ public class DailyService {
     }
 
     // Daily 조회
-    private List<Daily> getDailyList(int startId) {
-        return dailyRepository.findDailiesWithOffsetAndLimit(PageRequest.of(startId, PAGESIZE));
+    private List<Daily> getDailyList(int offset, int limit) {
+        return dailyRepository.findDailiesWithOffsetAndLimit(PageRequest.of(offset, limit));
     }
 }

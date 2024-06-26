@@ -33,10 +33,6 @@ IDaily/src/main/java/com/HelloWorld/Daily/controller/MemberController.java,e/3/
 NDaily/src/main/java/com/HelloWorld/Daily/service/CustomUserDetailsService.java,7/3/73627bc3f0636783372a6b3d4b0ef8bcf7359964
 k
 ;Daily/src/main/java/com/HelloWorld/Daily/dto/MemberDTO.java,3/7/37d94dae02dd0d50fd07ebb1bea904651d48ab11
-{
-KDaily/src/main/java/com/HelloWorld/Daily/jwtConfig/LoginSuccessHandler.java,3/e/3e83338bd13a8335831934df6029c9fda0d5f72a
-x
-HDaily/src/main/java/com/HelloWorld/Daily/controller/DailyController.java,2/6/262a2ced2b6f0e86db146f94a6e8fc34c5f3d4b0
 r
 BDaily/src/main/java/com/HelloWorld/Daily/service/DailyService.java,b/4/b444e92a6e36253d5bf5832f271f05262f239e21
 x
@@ -51,11 +47,11 @@ v
 FDaily/src/test/java/com/HelloWorld/Daily/service/DailyServiceTest.java,f/b/fb29ffd158ece5b0df560d61377bdcee79bfea67
 
 ODaily/src/test/java/com/HelloWorld/Daily/jpaRepository/DailyRepositoryTest.java,f/4/f488884a43464f868b0251a69707d9242d1e6ad9
-y
-IDaily/src/main/java/com/HelloWorld/Daily/controller/DailyLikeService.java,f/4/f4a214a860322aad8e73dc70c4e7dcefd2eefced
 v
 FDaily/src/main/java/com/HelloWorld/Daily/service/DailyLikeService.java,5/6/562de17940b567c04d1c60c256d29bbf2e6ff981
 z
 JDaily/src/test/java/com/HelloWorld/Daily/service/DailyLikeServiceTest.java,3/3/3307eb1bf82b822500f5223a8e7077259678f2e5
 m
 =Daily/src/test/java/com/HelloWorld/Daily/utils/MockUtils.java,4/5/4519abf307926bf6939f35209c9ae4dde99b096b
+s
+CDaily/src/test/java/com/HelloWorld/Daily/DailyApplicationTests.java,f/c/fce9ae8358f971211e28d46868340499e45b850e

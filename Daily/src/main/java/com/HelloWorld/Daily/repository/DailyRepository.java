@@ -18,7 +18,8 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
             "AND month(d.createdAt) = month(CURRENT_TIMESTAMP)")
     Optional<Daily> findDailyInDay(@Param("memberName") String memberName);
 
-    @Query("SELECT d FROM Daily d " +
+    @Query("SELECT d " +
+            "FROM Daily d " +
             "WHERE d.isPublic = true " +
             "ORDER BY d.id DESC")
     List<Daily> findDailiesWithOffsetAndLimit(Pageable pageable);

@@ -1,4 +1,5 @@
-<form action="/login" id="loginForm" th:action th:object="${requestDTO}" method="post">
+<form action="/login" id="loginForm" th:action th:object="${requestDTO}" method="post"
+      xmlns:th="http://www.w3.org/1999/xhtml">
     <div>
         <label for="loginId">Username:</label>
         <input type="text" id="loginId" th:field="*{userName}" class="form-control" >

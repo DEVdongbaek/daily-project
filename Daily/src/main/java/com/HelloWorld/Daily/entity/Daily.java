@@ -23,7 +23,7 @@ public class Daily extends Common {
     public static Daily of(DailyDTO.RequestDTO dailyDTO, Member member) {
         return Daily.builder()
                 .member(member)
-                .isPublic(dailyDTO.isPublic())
+                .isPublic(dailyDTO.isItIsPublic())
                 .build();
     }
 

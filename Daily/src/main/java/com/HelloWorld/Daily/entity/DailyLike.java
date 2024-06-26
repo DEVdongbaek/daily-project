@@ -30,9 +30,14 @@ public class DailyLike extends Common {
     }
 
     public boolean isClickedLike(String userName) {
+        if (this.members == null) {
+            return false;
+        }
+
         if (this.members.contains(userName)) {
             return true;
         }
+
         return false;
     }
     public void addLike(String userName) {
@@ -44,6 +49,9 @@ public class DailyLike extends Common {
     }
 
     public int getUsersCount() {
+        if (this.members == null) {
+            return 0;
+        }
         return this.members.size();
     }
 }

@@ -1,7 +1,29 @@
 spring:
   application:
     name: Daily
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    datasource:
+      url: jdbc:h2:~/test/lof?useUnicode=true&characterEncoding=utf8;
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: always
 
 jwt:
   secret: 39afe40b7dd4cb5b96f7031fcd8375663914aa65fc9673707ce4e9323e51feee
   exprired : 86400000
+
+
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+

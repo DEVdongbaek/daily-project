@@ -26,11 +26,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http, @Value("${jwt.exprired}") Long exprired) throws Exception {
         // 스프링부트 3.1.x~ 시큐리티 설정 방식이 변경됨. .and()를 사용하지 않음
-        http.sessionManagement(configurer-> // 세션 사용안해서 STATELESS 상태로 설정
+        http
+                .csrf().disable()  // CSRF 보호 비활성화
+                .sessionManagement(configurer-> // 세션 사용안해서 STATELESS 상태로 설정
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize->
                         authorize
-                                .requestMatchers("/login", "/signup", "/").permitAll() // 페이지
+                                .requestMatchers("/login", "/signup", "/", "/error").permitAll() // 페이지
                                 .requestMatchers("/login/**", "/signup/**").permitAll() // API
                                 .requestMatchers("/**").permitAll() // CSS, JS 파일 허용
                                 .anyRequest().authenticated()

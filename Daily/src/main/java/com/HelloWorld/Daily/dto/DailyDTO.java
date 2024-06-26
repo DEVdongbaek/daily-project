@@ -5,16 +5,17 @@ import com.HelloWorld.Daily.entity.DailyContent;
 import com.HelloWorld.Daily.entity.DailyLike;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DailyDTO {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class RequestDTO {
 
-        private boolean isPublic;
+        private boolean itIsPublic;
 
         private String thanks1;
 
@@ -34,7 +35,7 @@ public class DailyDTO {
     @Builder
     public static class ResponseDTOs {
 
-        private List<ResponseDTO> responseDTOS = new ArrayList<>();
+        private List<ResponseDTO> responseDTOS;
 
         public static ResponseDTOs of(List<ResponseDTO> responseDTOS) {
             return ResponseDTOs.builder()
