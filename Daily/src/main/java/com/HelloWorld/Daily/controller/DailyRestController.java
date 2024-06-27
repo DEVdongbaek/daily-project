@@ -19,7 +19,6 @@ public class DailyRestController {
     private final DailyLikeService dailyLikeService;
 
     // 홈에서 띄워지는 Daily
-    // Paging이 있어야 함.
     @GetMapping("/dailies/{offset}/{limit}")
     public ResponseEntity<DailyDTO.ResponseDTOs> getDailies(@AuthenticationPrincipal UserDetails userDetails, @PathVariable int offset, @PathVariable int limit){
 
@@ -30,6 +29,13 @@ public class DailyRestController {
     @GetMapping("/daily")
     public void getDailies(){
 
+    }
+
+    // 홈에서 띄워지는 Daily
+    @GetMapping("/my/dailies/{offset}/{limit}")
+    public ResponseEntity<DailyDTO.ResponseDTOs> getMyDailies(@AuthenticationPrincipal UserDetails userDetails, @PathVariable int offset, @PathVariable int limit){
+
+        return new ResponseEntity<>(dailyService.getMyDailies(userDetails.getUsername(), offset, limit), HttpStatus.OK);
     }
 
     // Daily 생성

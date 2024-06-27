@@ -43,6 +43,20 @@ public class DailyService {
         );
     }
 
+    @Transactional(readOnly = true)
+    public DailyDTO.ResponseDTOs getMyDailies(String memberName, int offset, int limit){
+
+        List<Daily> dailies = getMyDailyList(memberName, offset, limit);
+
+        System.out.println("Daily Size : "  + dailies.size());
+
+        return DailyDTO.ResponseDTOs.of(
+                dailies.stream().map(
+                        daily -> getResponseDTO(daily, memberName)
+                ).toList()
+        );
+    }
+
     @Transactional
     public void saveDaily(String memberName, DailyDTO.RequestDTO requestDTO){
 
@@ -64,7 +78,6 @@ public class DailyService {
         dailyContentRepository.save(DailyContent.of(daily, requestDTO));
     }
 
-
     // ResponseDTO 조회 및 객체화
     private DailyDTO.ResponseDTO getResponseDTO(Daily daily, String memberName){
         return DailyDTO.ResponseDTO.of(
@@ -78,5 +91,10 @@ public class DailyService {
     // Daily 조회
     private List<Daily> getDailyList(int offset, int limit) {
         return dailyRepository.findDailiesWithOffsetAndLimit(PageRequest.of(offset, limit));
+    }
+
+    // My Daily 조회
+    private List<Daily> getMyDailyList(String memberName, int offset, int limit) {
+        return dailyRepository.findMyDailiesWithOffsetAndLimit(memberName, PageRequest.of(offset, limit));
     }
 }

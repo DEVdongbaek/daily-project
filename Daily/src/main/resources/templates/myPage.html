@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <a href="/">Go to Home</a>
+
+
+  <div id="postList">
+    아래에 콘텐츠가 나와야 함.
+  </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+
+  // false이면 무한스크롤 중지 (모든 게시물 출력상태)
+  // 초기값 true로 설정했습니디.
+  var postScroll = true;
+
+  // 초기값으로 첫번째 게시물만 출력받도록 설정 && 스크롤시마다 게시글 5개가 추가 되도록 수정
+  var startId = 0;
+  var limit = 5
+
+  $(document).ready(function() {
+      // 게시글 목록 출력
+      postListDisplay(startId, limit);
+
+      if (postScroll === true) {
+          // 무한스크롤 함수 실행
+          $(window).scroll(scrollHandler);
+      }
+  });
+
+  // 무한 스크롤 기능
+  function scrollHandler() {
+      console.log("scorll이 감지 되었습니다.");
+
+      // 스크롤이 화면 가장 아래에 닿으면 실행됨
+      if (postScroll === true && $(window).scrollTop() + $(window).height() >= $(document).height() - 30) {
+          console.log("scorll이 맨 바닥에 위치합니다.");
+
+          // 변경된 초기값으로 다시 목록이 출력됨
+          postListDisplay(startId, limit);
+
+          // 초기값은 limit 값을 더한 값으로 설정
+          startId += limit;
+
+          console.log(startId);
+
+      }
+  }
+
+  //게시글 목록 출력
+  function postListDisplay(startId, limit) {
+
+      $.ajax({
+          method: "GET",
+          url: "my/dailies/" + startId + "/" + limit,
+          success: function(result) {
+
+              // 출력 데이터가 없다면 무한스크롤을 false(중지상태)로 설정
+              if (result.responseDTOS.length === 0) {
+                  postScroll = false;
+                  console.log("더 이상 데이터가 없다요....ㅠ");
+              }
+
+              // 데이터가 있으면 목록 출력
+              if (result.responseDTOS.length > 0) {
+
+                  for (var i = 0; i < result.responseDTOS.length; i++) {
+                      var postList = result.responseDTOS[i];
+
+                      var postElement2 =
+                          $("<div class='col-12 col-sm-6 col-md-4 col-lg-3 mb-4 clickable-post' data-aos='fade-up' data-aos-delay='100' data-aos-duration='800'>" +
+                              "<div class='post-content'>" +
+                                  "<p><strong>isPublic:</strong> " + postList.public + "</p>" +
+                                  "<p><strong>Thanks 1:</strong> " + postList.thanks1 + "</p>" +
+                                  "<p><strong>Thanks 2:</strong> " + postList.thanks2 + "</p>" +
+                                  "<p><strong>Thanks 3:</strong> " + postList.thanks3 + "</p>" +
+                                  "<p><strong>Penitence 1:</strong> " + postList.penitence1 + "</p>" +
+                                  "<p><strong>Penitence 2:</strong> " + postList.penitence2 + "</p>" +
+                                  "<p><strong>Penitence 3:</strong> " + postList.penitence3 + "</p>" +
+                              "</div>" +
+                          "</div>");
+                      $("#postList").append(postElement2);
+                  }
+              }
+          },
+
+          beforeSend: function () {
+                  $("#loadingImage").show();
+              },
+
+          complete: function () {
+              $("#loadingImage").hide();
+              },
+
+          error: function(error) {
+            $("#loadingImage").hide();
+            console.log(error);
+          }
+      });
+  }
+</script>
+</html>

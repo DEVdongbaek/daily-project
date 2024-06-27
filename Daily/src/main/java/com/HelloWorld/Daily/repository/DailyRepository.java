@@ -24,4 +24,10 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
             "ORDER BY d.id DESC")
     List<Daily> findDailiesWithOffsetAndLimit(Pageable pageable);
 
+    @Query("SELECT d " +
+            "FROM Daily d " +
+            "WHERE d.member.userName = :memberName " +
+            "ORDER BY d.id DESC")
+    List<Daily> findMyDailiesWithOffsetAndLimit(@Param("memberName") String memberName, Pageable pageable);
+
 }

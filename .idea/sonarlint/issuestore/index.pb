@@ -55,3 +55,5 @@ m
 =Daily/src/test/java/com/HelloWorld/Daily/utils/MockUtils.java,4/5/4519abf307926bf6939f35209c9ae4dde99b096b
 s
 CDaily/src/test/java/com/HelloWorld/Daily/DailyApplicationTests.java,f/c/fce9ae8358f971211e28d46868340499e45b850e
+x
+HDaily/src/main/java/com/HelloWorld/Daily/controller/DailyController.java,2/6/262a2ced2b6f0e86db146f94a6e8fc34c5f3d4b0

@@ -74,6 +74,9 @@
 
         <div th:unless="${nickname == 'anonymousUser'}">
             <h4>로그인</h4>
+
+            <a href="my-page">Go to My Page</a>
+
             <!-- 편의상 해당 div 아래에 코드 작성하기-->
             <div id="daily-content" class="mt-4"></div>
             <div class="text-center mt-4" th:if="${nickname != null}">
@@ -280,7 +283,5 @@
             }
         });
     }
-
-
 </script>
 </html>
