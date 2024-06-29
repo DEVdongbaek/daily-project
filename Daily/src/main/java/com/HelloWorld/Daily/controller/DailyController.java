@@ -13,4 +13,9 @@ public class DailyController {
         return "myPage.html";
     }
 
+    @RequestMapping("design-page")
+    public String getDesignPage(){
+        return "design.html";
+    }
+
 }

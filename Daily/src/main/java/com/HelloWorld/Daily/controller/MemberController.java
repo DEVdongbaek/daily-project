@@ -1,14 +1,11 @@
 package com.HelloWorld.Daily.controller;
 
 import com.HelloWorld.Daily.dto.MemberDTO;
-import com.HelloWorld.Daily.entity.Member;
-import com.HelloWorld.Daily.jwtConfig.JwtToken;
 import com.HelloWorld.Daily.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

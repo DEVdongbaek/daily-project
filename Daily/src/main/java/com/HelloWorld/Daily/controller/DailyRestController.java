@@ -22,6 +22,9 @@ public class DailyRestController {
     @GetMapping("/dailies/{offset}/{limit}")
     public ResponseEntity<DailyDTO.ResponseDTOs> getDailies(@AuthenticationPrincipal UserDetails userDetails, @PathVariable int offset, @PathVariable int limit){
 
+        if (userDetails == null) {
+            return new ResponseEntity<>(dailyService.getDailies("anonymous", offset, limit), HttpStatus.OK);
+        }
         return new ResponseEntity<>(dailyService.getDailies(userDetails.getUsername(), offset, limit), HttpStatus.OK);
     }
 

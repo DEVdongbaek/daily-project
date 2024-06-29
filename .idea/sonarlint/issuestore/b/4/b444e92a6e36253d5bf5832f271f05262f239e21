@@ -1,5 +1,5 @@
 
-ˆ	java:S112A"FDefine and throw a dedicated exception instead of using a generic one.(þ‡†—8³„Ø–…2J$5c5cb442-2453-4c12-a5b2-66929ae1bf18
-œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ïý·‹8´„Ø–…2J$a64754ce-0e96-46da-b509-f373b5bf43ec
-m	java:S106%"+Replace this use of System.out by a logger.(×óÙÒ8³çù–…2J$0daf9874-5d92-459a-9231-3940ebc38c5d
-m	java:S1063"+Replace this use of System.out by a logger.(×óÙÒ8Ü€¥¾…2J$9b4fe091-9ed5-4378-b8f5-74d57a780bbd
+ˆ	java:S112A"FDefine and throw a dedicated exception instead of using a generic one.(þ‡†—8³„Ø–…2J$1f66b55f-b6ef-4f5f-8a08-be62d3441b77
+œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ïý·‹8´„Ø–…2J$1c21c114-36a4-46bb-a7ed-dbfa7c91296a
+m	java:S106%"+Replace this use of System.out by a logger.(×óÙÒ8³çù–…2J$51e3e6f6-6460-44c3-8db5-5872c7eca82f
+m	java:S1063"+Replace this use of System.out by a logger.(×óÙÒ8Ü€¥¾…2J$e586fc7d-3129-4042-a20a-1c73e2629615

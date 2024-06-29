@@ -1,7 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>홈 화면</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Daily Project</title>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
 </head>
 <style>
     #loadingImage {
@@ -46,89 +54,106 @@
     }
 </style>
 <body>
-<div class="container" style="max-width: 600px">
-    <div class="py-5 text-center">
-        <h2>홈 화면</h2>
-    </div>
-    <div class="row">
-        <div class="col">
-            <button class="w-100 btn btn-secondary btn-lg" type="button"
-                    th:onclick="|location.href='@{/signup}'|">
-                회원 가입
-            </button>
-        </div>
-        <div class="col">
-            <button class="w-100 btn btn-dark btn-lg"
-                    th:onclick="|location.href='@{/login}'|" type="button">
-                로그인
-            </button>
-        </div>
-    </div>
-    <hr class="my-4">
-    <div class="text-center">
-        <div th:if="${nickname == 'anonymousUser'}">
-            <h4>비로그인</h4>
-        </div>
-        </div>
-        </div>
-
-        <div th:unless="${nickname == 'anonymousUser'}">
-            <h4>로그인</h4>
-
-            <a href="my-page">Go to My Page</a>
-
-            <!-- 편의상 해당 div 아래에 코드 작성하기-->
-            <div id="daily-content" class="mt-4"></div>
-            <div class="text-center mt-4" th:if="${nickname != null}">
-                <button class="btn btn-primary" id="modalOpenButton">작성하기</button>
-            </div>
-
-            <!-- 모달 창-->
-            <div id="modalContainer" class="hidden">
-                <div id="modalContent">
-                    <form id="daily-form">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="itIsPublic" name="itIsPublic" value="true">
-                            <label class="form-check-label" for="itIsPublic">
-                                공개 여부
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="thanks1">감사1</label>
-                            <input type="text" class="form-control" id="thanks1" name="thanks1">
-                        </div>
-                        <div class="form-group">
-                            <label for="thanks2">감사2</label>
-                            <input type="text" class="form-control" id="thanks2" name="thanks2">
-                        </div>
-                        <div class="form-group">
-                            <label for="thanks3">감사3</label>
-                            <input type="text" class="form-control" id="thanks3" name="thanks3">
-                        </div>
-                        <div class="form-group">
-                            <label for="penitence1">회개1</label>
-                            <input type="text" class="form-control" id="penitence1" name="penitence1">
-                        </div>
-                        <div class="form-group">
-                            <label for="penitence2">회개2</label>
-                            <input type="text" class="form-control" id="penitence2" name="penitence2">
-                        </div>
-                        <div class="form-group">
-                            <label for="penitence3">회개3</label>
-                            <input type="text" class="form-control" id="penitence3" name="penitence3">
-                        </div>
-                    </form>
-                    <button id="submit-daily-form" onclick="ajax_send()" value="call">저장</button>
-                    <button id="modalCloseButton">닫기</button>
+<!-- Responsive navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-lg-5">
+        <a class="navbar-brand" href="/">Daily</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <!-- 비로그인시 -->
+                <div th:if="${nickname == 'anonymousUser'}">
+                    <h4>비로그인</h4>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:onclick="|location.href='@{/signup}'|">회원 가입</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" th:onclick="|location.href='@{/login}'|">로그인</a>
+                    </li>
                 </div>
+                <!-- 로그인시 -->
+                <div th:unless="${nickname == 'anonymousUser'}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:onclick="|location.href='@{/logout}'|">로그아웃</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:onclick="|location.href='@{/my-page}'|">마이 페이지</a>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Header-->
+<header class="py-5">
+    <div class="container px-lg-5">
+        <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+            <div class="m-4 m-lg-5">
+                <h1 class="display-5 fw-bold">Welcome to Daily!</h1>
+                <p class="fs-4">날마다 반복되는 3감사 3회개로 여러분들의 하루에 대해서 기록하고 되돌아보세요! Daily는 여러분들이 더 발전할 수 있도록 도와주는 서비스입니다. 하루에 한번만 글을 작성할 수 있습니다!</p>
+                <a class="btn btn-primary btn-lg" id="modalOpenButton" >Daily 작성하기</a>
             </div>
         </div>
-
-    <div id="postList">
-        아래에 콘텐츠가 나와야 함.
     </div>
+</header>
 
-    <div class="loadingImage" id="loadingImage"></div>
+<!-- Page Content-->
+<section class="pt-4">
+    <div class="container px-lg-5">
+        <!-- Page Features-->
+        <div class="row gx-lg-5" id="postList">
+        </div>
+    </div>
+</section>
+
+<!-- 모달 창-->
+<div id="modalContainer" class="hidden">
+    <div id="modalContent">
+        <form id="daily-form">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="itIsPublic" name="itIsPublic" value="true">
+                <label class="form-check-label" for="itIsPublic">
+                    공개 여부
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="thanks1">감사1</label>
+                <input type="text" class="form-control" id="thanks1" name="thanks1">
+            </div>
+            <div class="form-group">
+                <label for="thanks2">감사2</label>
+                <input type="text" class="form-control" id="thanks2" name="thanks2">
+            </div>
+            <div class="form-group">
+                <label for="thanks3">감사3</label>
+                <input type="text" class="form-control" id="thanks3" name="thanks3">
+            </div>
+            <div class="form-group">
+                <label for="penitence1">회개1</label>
+                <input type="text" class="form-control" id="penitence1" name="penitence1">
+            </div>
+            <div class="form-group">
+                <label for="penitence2">회개2</label>
+                <input type="text" class="form-control" id="penitence2" name="penitence2">
+            </div>
+            <div class="form-group">
+                <label for="penitence3">회개3</label>
+                <input type="text" class="form-control" id="penitence3" name="penitence3">
+            </div>
+        </form>
+        <button id="submit-daily-form" onclick="ajax_send()" value="call">저장</button>
+        <button id="modalCloseButton">닫기</button>
+    </div>
+</div>
+
+<!-- Loading Bar -->
+<div class="loadingImage" id="loadingImage"></div>
+
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Team HelloWorld 2024</p></div>
+</footer>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -253,15 +278,27 @@
                         var postList = result.responseDTOS[i];
 
                         var postElement2 =
-                            $("<div class='col-12 col-sm-6 col-md-4 col-lg-3 mb-4 clickable-post' data-aos='fade-up' data-aos-delay='100' data-aos-duration='800'>" +
-                                "<div class='post-content'>" +
-                                    "<p><strong>isPublic:</strong> " + postList.public + "</p>" +
-                                    "<p><strong>Thanks 1:</strong> " + postList.thanks1 + "</p>" +
-                                    "<p><strong>Thanks 2:</strong> " + postList.thanks2 + "</p>" +
-                                    "<p><strong>Thanks 3:</strong> " + postList.thanks3 + "</p>" +
-                                    "<p><strong>Penitence 1:</strong> " + postList.penitence1 + "</p>" +
-                                    "<p><strong>Penitence 2:</strong> " + postList.penitence2 + "</p>" +
-                                    "<p><strong>Penitence 3:</strong> " + postList.penitence3 + "</p>" +
+                            $("<div class='col-lg-6 col-xxl-4 mb-5'>" +
+                                "<div class='card bg-light border-0 h-100'>" +
+                                    "<div class='card-body text-center p-4 p-lg-5 pt-0 pt-lg-0'>" +
+                                        "<div class='feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4'>" +
+                                            "<i class='bi bi-collection'></i>" +
+                                        "</div>" +
+                                        "<h2 class='fs-4 fw-bold'>" + postList.author + "</h2>" +
+                                        "<p class='mb-0'>감사</p>" +
+                                        "<ul class='list-group'>" +
+                                          "<li class='list-group-item'>" + postList.thanks1 + "</li>" +
+                                          "<li class='list-group-item'>" + postList.thanks2 + "</li>" +
+                                          "<li class='list-group-item'>" + postList.thanks3 + "</li>" +
+                                        "</ul>" +
+                                        "<br />" + 
+                                        "<p class='mb-0'>회개</p>" +
+                                        "<ul class='list-group'>" +
+                                          "<li class='list-group-item'>" + postList.penitence1 + "</li>" +
+                                          "<li class='list-group-item'>" + postList.penitence2 + "</li>" +
+                                          "<li class='list-group-item'>" + postList.penitence3 + "</li>" +
+                                        "</ul>" +
+                                    "</div>" +
                                 "</div>" +
                             "</div>");
                         $("#postList").append(postElement2);

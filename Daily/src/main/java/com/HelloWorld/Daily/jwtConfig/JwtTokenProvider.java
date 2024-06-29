@@ -3,8 +3,10 @@ package com.HelloWorld.Daily.jwtConfig;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -72,7 +74,7 @@ public class JwtTokenProvider {
     }
 
     // Token 정보를 검증하는 메서드
-    public boolean validateToken(HttpServletRequest request, String token) {
+    public boolean validateToken(HttpServletRequest request, HttpServletResponse servletResponse, String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)
@@ -83,13 +85,17 @@ public class JwtTokenProvider {
             log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
 
-            log.info("Expired JWT Token", e);
+            log.info("Expired JWT Token");
 
             Cookie[] list = request.getCookies();
 
             for(Cookie cookie:list) {
                 if(cookie.getName().equals("Authorization")) {
-                    cookie.setMaxAge(0);
+                    Cookie expiredCookie = new Cookie("Authorization", null);
+                    expiredCookie.setMaxAge(0);
+                    expiredCookie.setPath("/");
+
+                    servletResponse.addCookie(expiredCookie);
                 }
             }
 

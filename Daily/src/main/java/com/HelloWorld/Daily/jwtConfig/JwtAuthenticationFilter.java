@@ -3,6 +3,7 @@ package com.HelloWorld.Daily.jwtConfig;
 import jakarta.servlet.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +24,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String token = resolveToken((HttpServletRequest) servletRequest);
 
         // 2. validateToken으로 토큰 유효성 검사
-        if (token != null && jwtTokenProvider.validateToken((HttpServletRequest) servletRequest, token)) {
+        if (token != null && jwtTokenProvider.validateToken((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse, token)) {
 
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
 

@@ -51,6 +51,8 @@ public class DailyDTO {
     @AllArgsConstructor
     public static class ResponseDTO {
 
+        private String author;
+
         private Long dailyId;
 
         private int dailyLikeCnt;
@@ -73,6 +75,7 @@ public class DailyDTO {
 
         public static ResponseDTO of(Daily daily, DailyLike dailyLike, DailyContent dailyContent, String userName){
             return ResponseDTO.builder()
+                    .author(daily.getMember().getNickName())
                     .dailyId(daily.getId())
                     .dailyLikeCnt(dailyLike.getUsersCount())
                     .isClickedLike(dailyLike.isClickedLike(userName))
