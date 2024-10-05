@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -10,36 +10,55 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <!-- Alert Library -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <style>
+        #loadingImage {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('R1280x0-16.gif') 50% 50% no-repeat rgb(249, 249, 249);
+            background-size: 10%;
+            opacity: 0.7;
+        }
+        .gradient-custom-3 {
+            background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+        }
+
+        /* Calendar CSS */
+        #calendar {
+            width: 100%;
+            margin: 20px auto;
+        }
+        td {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .active {
+            color: red;
+        }
+        .heart {
+            display: none;
+            color: red;
+        }
+        td.active .heart {
+            display: inline;
+        }
+        .control-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
-<style>
-    #loadingImage {
-        display: none; /* 평소에는 gif가 보이지 않음 */
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background: url('R1280x0-16.gif') 50% 50% no-repeat rgb(249, 249, 249);
-        background-size: 10%; /* 이미지 크기를 50%로 줄임 */
-        opacity: 0.7;
-    }
-
-    .gradient-custom-3 {
-    /* fallback for old browsers */
-    background: #84fab0;
-
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
-
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
-    }
-</style>
 
 <body>
 <!-- Responsive navbar-->
@@ -50,10 +69,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" th:onclick="|location.href='@{/logout}'|">로그아웃</a>
+                    <a class="nav-link" href="/logout">로그아웃</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:onclick="|location.href='@{/}'|">홈</a>
+                    <a class="nav-link" href="/">홈</a>
                 </li>
             </ul>
         </div>
@@ -76,9 +95,32 @@
     <!-- Page Content-->
     <section class="pt-4">
         <div class="container px-lg-5">
-            <!-- Page Features-->
-            <div class="row gx-lg-5" id="postList">
+            <!-- Calendar -->
+            <div class="control-buttons">
+                <button id="prevMonth" class="btn btn-secondary">&lt;</button>
+                <select id="yearSelect"></select>
+                <select id="monthSelect"></select>
+                <button id="nextMonth" class="btn btn-secondary">&gt;</button>
             </div>
+            <table id="calendar" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+                </thead>
+                <tbody id="calendarBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Post List -->
+        <div class="container px-lg-5">
+            <div class="row gx-lg-5" id="postList"></div>
         </div>
     </section>
 </div>
@@ -91,158 +133,148 @@
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Team HelloWorld 2024</p></div>
 </footer>
 
-</body>
-
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Responsive navbar-->
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-    // alert
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'center-center',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    });
+    // Calendar Variables
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth();
 
-    // 무한 스크롤 기능
-    // false이면 무한스크롤 중지 (모든 게시물 출력상태)
-    // 초기값 true로 설정했습니디.
-    var postScroll = true;
+    $(document).ready(function () {
+        populateYearSelect();
+        populateMonthSelect();
+        renderCalendar(currentYear, currentMonth);
 
-    // 초기값으로 첫번째 게시물만 출력받도록 설정 && 스크롤시마다 게시글 5개가 추가 되도록 수정
-    var startId = 0;
-    var limit = 5
+        // Year and Month change handler
+        $("#yearSelect, #monthSelect").on("change", function () {
+            currentYear = parseInt($("#yearSelect").val());
+            currentMonth = parseInt($("#monthSelect").val());
+            renderCalendar(currentYear, currentMonth);
+        });
 
-    $(document).ready(function() {
-        // 게시글 목록 출력
+        // Previous month button
+        $("#prevMonth").on("click", function () {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateCalendar();
+        });
+
+        // Next month button
+        $("#nextMonth").on("click", function () {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCalendar();
+        });
+
+        // Heart toggle on date click
+        $("#calendarBody").on("click", "td", function () {
+            $(this).toggleClass("active");
+        });
+
+        // Infinite scroll for post list
         postListDisplay(startId, limit);
-
         if (postScroll === true) {
-            // 무한스크롤 함수 실행
             $(window).scroll(scrollHandler);
         }
     });
 
+    // Year select options
+    function populateYearSelect() {
+        const yearSelect = $("#yearSelect");
+        for (let i = currentYear - 10; i <= currentYear + 10; i++) {
+            yearSelect.append(new Option(i, i));
+        }
+        yearSelect.val(currentYear);
+    }
+
+    // Month select options
+    function populateMonthSelect() {
+        const monthSelect = $("#monthSelect");
+        for (let i = 1; i <= 12; i++) {
+            monthSelect.append(new Option(i, i - 1));
+        }
+        monthSelect.val(currentMonth);
+    }
+
+    // Render calendar based on year and month
+    function renderCalendar(year, month) {
+        const calendarBody = $("#calendarBody");
+        calendarBody.empty();
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        let date = 1;
+        for (let i = 0; i < 6; i++) {
+            let row = $("<tr></tr>");
+            for (let j = 0; j < 7; j++) {
+                if (i === 0 && j < firstDay) {
+                    row.append($("<td></td>"));
+                } else if (date > daysInMonth) {
+                    break;
+                } else {
+                    let cell = $("<td><span>" + date + "</span><i class='bi bi-heart-fill heart'></i></td>");
+                    row.append(cell);
+                    date++;
+                }
+            }
+            calendarBody.append(row);
+        }
+    }
+
+    function updateCalendar() {
+        $("#yearSelect").val(currentYear);
+        $("#monthSelect").val(currentMonth);
+        renderCalendar(currentYear, currentMonth);
+    }
+
+    // Infinite scroll for post list
+    var postScroll = true;
+    var startId = 0;
+    var limit = 5;
+
     function scrollHandler() {
-        // 스크롤이 화면 가장 아래에 닿으면 실행됨
         if (postScroll === true && $(window).scrollTop() + $(window).height() >= $(document).height() - 30) {
-
-            // 변경된 초기값으로 다시 목록이 출력됨
             postListDisplay(startId, limit);
-
-            // 초기값은 limit 값을 더한 값으로 설정
             startId += limit;
         }
     }
 
-    //게시글 목록 출력
     function postListDisplay(startId, limit) {
-
         $.ajax({
             method: "GET",
             url: "my/dailies/" + startId + "/" + limit,
             success: function(result) {
-
-                // 출력 데이터가 없다면 무한스크롤을 false(중지상태)로 설정
-                if (result.data.responseDTOS.length === 0 || result.data.responseDTOS.length === 1) {
+                if (result.data.responseDTOS.length === 0 || result.data.responseDTOS.length < limit) {
                     postScroll = false;
                 }
-
-                // 데이터가 있으면 목록 출력
-                if (result.data.responseDTOS.length > 0) {
-
-                    for (var i = 0; i < result.data.responseDTOS.length; i++) {
-                        var postList = result.data.responseDTOS[i];
-
-                        var levelIcon;
-
-                        // 글쓴이의 레벨에 따른 이미지 변경
-                        switch(postList.authorLevel) {
-                            case 1:
-                                // Author Level 1에 대한 처리
-                                levelIcon = "<i class='bi bi-1-square-fill'></i>"
-                                break;
-                            case 2:
-                                // Author Level 2에 대한 처리
-                                levelIcon = "<i class='bi bi-2-square-fill'></i>"
-                                break;
-                            case 3:
-                                // Author Level 3에 대한 처리
-                                levelIcon = "<i class='bi bi-3-square-fill'></i>"
-                                break;
-                            case 4:
-                                // Author Level 4에 대한 처리
-                                levelIcon = "<i class='bi bi-4-square-fill'></i>"
-                                break;
-                            default:
-                                // 기타 레벨에 대한 처리
-                                levelIcon = "<i class='bi bi-c-square-fill'></i>"
-                                break;
-                        }
-
-                        // 좋아요에 따라 하트 이미지 변경 및 클릭 이벤트 핸들러 추가
-                        var svgIcon = postList.clickedLike ?
-                          "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-heart-fill' viewBox='0 0 16 16' onclick='sendLikeRequest(\"" + postList.dailyId + "\")'>" +
-                            "<path fill-rule='evenodd' d='M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314'/>" +
-                          "</svg>" :
-                          "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-heart' viewBox='0 0 16 16' onclick='sendLikeRequest(\"" + postList.dailyId + "\")'>" +
-                            "<path d='m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15'/>" +
-                          "</svg>";
-
-                        var postElement2 =
-                            $("<div class='col-lg-6 col-xxl-4 mb-5' data-daily-id='" + postList.dailyId + "'>" +
-                                "<div class='card border-success border-0 h-100'>" +
-                                    "<div class='card-body p-4 p-lg-5 pt-0 pt-lg-0'>" +
-                                        "<div class='feature bg-success bg-gradient text-white rounded-3 mb-4 mt-n4'>" +
-                                            levelIcon +
-                                        "</div>" +
-                                        "<h2 class='fs-3 fw-normal fst-italic text-center'>" + postList.author + "</h2>" +
-                                        "<p class='fs-5 fw-normal mb-0'>감사</p>" +
-                                        "<ul class='list-group list-group-flush'>" +
-                                          "<li class='list-group-item'>" + "<p class='fw-lighter'>" + postList.thanks1 + "</p>" + "</li>" +
-                                          "<li class='list-group-item'>" + "<p class='fw-lighter'>" + postList.thanks2 + "</p>" + "</li>" +
-                                          "<li class='list-group-item'>" + "<p class='fw-lighter'>" + postList.thanks3 + "</p>" + "</li>" +
-                                        "</ul>" +
-                                        "<br />" +
-                                        "<p class='fs-5 fw-normal mb-0'>회개</p>" +
-                                        "<ul class='list-group list-group-flush'>" +
-                                          "<li class='list-group-item'>" + "<p class='fw-lighter'>" + postList.penitence1 + "</p>" + "</li>" +
-                                          "<li class='list-group-item'>" + "<p class='fw-lighter'>" + postList.penitence2 + "</p>" + "</li>" +
-                                          "<li class='list-group-item'>" + "<p class='fw-lighter'>" + postList.penitence3 + "</p>" + "</li>" +
-                                        "</ul>" +
-                                        "<br/>" +
-                                        "<div style='display: flex; align-items: center;'>" +
-                                          "<div class='like-icon'>" + svgIcon + "</div>" +
-                                          "<p class='fw-lighter text-start like-count' style='margin: 0 0 0 8px;'>" + postList.dailyLikeCnt + "</p>" +
-                                        "</div>" +
-                                    "</div>" +
-                                "</div>" +
-                            "</div>");
-                        $("#postList").append(postElement2);
-                    }
-                }
-            },
-
-            beforeSend: function () {
-                    $("#loadingImage").show();
-                },
-
-            complete: function () {
-                $("#loadingImage").hide();
-                },
-
-            error: function(error) {
-              $("#loadingImage").hide();
-              console.log(error);
+                let posts = result.data.responseDTOS;
+                posts.forEach(function(post) {
+                    $("#postList").append(`
+                        <div class="col-lg-6 col-xxl-4 mb-5">
+                            <div class="card bg-light border-0 h-100">
+                                <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4">
+                                        <i class="bi bi-file-earmark-text"></i>
+                                    </div>
+                                    <h2 class="fs-4 fw-bold">${post.title}</h2>
+                                    <a class="btn btn-primary" href="daily/${post.id}">Go!</a>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
             }
         });
     }
 </script>
+</body>
 </html>
