@@ -1,12 +1,12 @@
 
-Š
-java:S1192'"GDefine a constant instead of duplicating this literal "/login" 4 times.(—ßš—8Î¶Ïˆ2J$61098512-acd5-46f5-ae81-093ad389fc5f
-œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ïÅœ‘8º¬™µ‡2J$667cd991-49d4-4540-bd51-5e4a21e139fd
-Š
-java:S1874"BRemove this use of "EnableGlobalMethodSecurity"; it is deprecated.(ªé´ôúÿÿÿÿ8±œÛˆ2J$69454c9b-9667-4649-8595-9c330f1b00e0
-
-java:S5738""HRemove this call to a deprecated method, it has been marked for removal.(ˆµ×ûøÿÿÿÿ8Ö¶Ïˆ2J$86237a5c-f0a4-42ad-bda3-b0d2f3d243d9
-m	java:S106G"+Replace this use of System.out by a logger.(×§şÖ8Ø¶Ïˆ2J$91241f2e-54d1-414e-b03b-e702b01bc1cd
-m	java:S106H"+Replace this use of System.out by a logger.(˜ŒÕ8Ù¶Ïˆ2J$9d410adc-23c4-4018-b70b-aac8e3d24350
-‹
-java:S5738P"HRemove this call to a deprecated method, it has been marked for removal.(éå×¦8Ù¶Ïˆ2J$90df1600-45e2-4750-abd0-25a4fe3593c8
+d
+java:S1192'"GDefine a constant instead of duplicating this literal "/login" 4 times.(—ßš—8¤¤ÂÇÈ2
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ïÅœ‘8Œ¼¥½2
+d
+java:S1874"BRemove this use of "EnableGlobalMethodSecurity"; it is deprecated.(ªé´ôúÿÿÿÿ8“¼¥½2
+j
+java:S5738""HRemove this call to a deprecated method, it has been marked for removal.(ˆµ×ûøÿÿÿÿ8Â¤ÂÇÈ2
+G	java:S106G"+Replace this use of System.out by a logger.(×§şÖ8›¼¥½2
+G	java:S106H"+Replace this use of System.out by a logger.(˜ŒÕ8œ¼¥½2
+e
+java:S5738P"HRemove this call to a deprecated method, it has been marked for removal.(éå×¦8¼¥½2

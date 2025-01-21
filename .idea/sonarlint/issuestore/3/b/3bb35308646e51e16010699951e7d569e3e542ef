@@ -1,5 +1,5 @@
 
-ˆ	java:S112q"FDefine and throw a dedicated exception instead of using a generic one.(’˜›Ö8ÇıÈœ†2J$200d3acd-c8f1-431b-ac4c-29f4f1a00bdd
-œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ïÅœ‘8ÊıÈœ†2J$eea2d007-ae14-41b8-845f-de15b79c0c97
-•
-java:S6204v"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8¸€Êœ†2J$5ae1edc4-b591-490b-a648-04f2f7151f1c
+b	java:S112q"FDefine and throw a dedicated exception instead of using a generic one.(’˜›Ö8½Œ‹¤Å2
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ïÅœ‘8ŠÆà¥½2
+o
+java:S6204v"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8‹¤Å2
