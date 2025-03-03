@@ -10,7 +10,7 @@ public class MemberDTO {
 
     @Getter
     @Builder
-    public static class RequestDTO {
+    public static class RequestDTO implements com.HelloWorld.Daily.dto.RequestDTO {
 
         @Length(min = 6, max = 15, message = "ID는 최소 6글자, 최대 15 글자 이하로 작성하여야 합니다.")
         private String userName;
@@ -22,6 +22,29 @@ public class MemberDTO {
         @Length(min = 6, max = 15, message = "닉네임은 최소 6글자, 최대 15 글자 이하로 작성하여야 합니다.")
         private String userNickname;
 
+        public void setUserNickname(String userNickname){
+            this.userNickname = userNickname;
+        }
+
+        public String getUserNickname() {
+            return userNickname;
+        }
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+        public String getUserPassword() {
+            return userPassword;
+        }
+
+        public void setUserPassword(String userPassword) {
+            this.userPassword = userPassword;
+        }
     }
 
     @Getter
