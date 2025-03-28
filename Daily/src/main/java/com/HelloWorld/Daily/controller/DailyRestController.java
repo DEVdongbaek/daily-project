@@ -55,6 +55,26 @@ public class DailyRestController {
         return ApiResponse.createSuccessWithNoContent(); // 공통 API를 반환하기 위한 ApiResponse 객체 사용
     }
 
+    // Daily 수정
+    @PutMapping("/daily/{dailyId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> updateDaily(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long dailyId, @Valid @RequestBody DailyDTO.RequestDTO requestDTO) {
+
+        dailyService.updateDaily(userDetails, dailyId, requestDTO);
+
+        return ApiResponse.createSuccessWithNoContent(); // 공통 API를 반환하기 위한 ApiResponse 객체 사용
+    }
+
+    // Daily 삭제
+    @PostMapping("/daily-delete/{dailyId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<?> deleteDaily(@PathVariable Long dailyId) {
+
+        dailyService.deleteDaily(dailyId);
+
+        return ApiResponse.createSuccessWithNoContent(); // 공통 API를 반환하기 위한 ApiResponse 객체 사용
+    }
+
     // 좋아요 기능
     @PostMapping("/daily-like/{dailyId}")
     @ResponseStatus(HttpStatus.OK)

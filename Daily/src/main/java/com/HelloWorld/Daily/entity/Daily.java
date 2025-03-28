@@ -27,4 +27,7 @@ public class Daily extends Common {
                 .build();
     }
 
+    public void updateDaily(DailyDTO.RequestDTO dailyDTO) {
+        this.isPublic = dailyDTO.isItIsPublic();
+    }
 }

@@ -8,6 +8,7 @@ import com.HelloWorld.Daily.exception.customException.WrittenDailyInADayExceptio
 import com.HelloWorld.Daily.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,6 +87,40 @@ public class DailyService {
         dailyContentRepository.save(DailyContent.of(daily, requestDTO));
     }
 
+    @Transactional
+    public void updateDaily(UserDetails userDetails, Long dailyId, DailyDTO.RequestDTO requestDTO) {
+//        if (userDetails == null) {
+//            throw new NotExistMemberException(MessageCode.DOES_NOT_EXIST_MEMBER.getMessage());
+//        }
+
+        Daily daily = dailyRepository.findById(dailyId)
+                .orElseThrow(() -> new NotExistMemberException(MessageCode.DOES_NOT_EXIST_MEMBER.getMessage()));
+
+        DailyContent dailyContent = dailyContentRepository.selectDailyContentByDaily(dailyId);
+
+//        String userName = userDetails.getUsername();
+//        Member member = memberRepository.findByUserName(userName)
+//                .orElseThrow(() -> new NotExistMemberException(MessageCode.DOES_NOT_EXIST_MEMBER.getMessage()));
+
+        daily.updateDaily(requestDTO);
+        dailyContent.updateDailyContent(requestDTO);
+    }
+
+    @Transactional
+    public void deleteDaily(Long dailyId) {
+        if (dailyLikeRepository.existsById(dailyId)) {
+            dailyLikeRepository.deleteById(dailyId);
+        }
+        else { throw new RuntimeException("DailyLike not found with id: " + dailyId); }
+        if (dailyContentRepository.existsById(dailyId)) {
+            dailyContentRepository.deleteById(dailyId);
+        }
+        else { throw new RuntimeException("DailyContent not found with id: " + dailyId); }
+        if (dailyRepository.existsById(dailyId)) {
+            dailyRepository.deleteById(dailyId);
+        }
+        else { throw new RuntimeException("Daily not found with id: " + dailyId); }
+    }
 
     // ResponseDTO 조회 및 객체화
     private DailyDTO.ResponseDTO getResponseDTO(Daily daily, String memberName){

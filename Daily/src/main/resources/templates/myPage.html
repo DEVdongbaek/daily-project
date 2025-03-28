@@ -81,6 +81,69 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Daily 작성하기</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="daily-form">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="itIsPublic" name="itIsPublic" value="true" role="switch">
+                            <label class="form-check-label" for="itIsPublic">공개 여부</label>
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="input-thanks1">감사1</span>
+                            <textarea class="form-control" id="thanks1" name="thanks1" aria-label="thanks1" aria-describedby="inputGroup-sizing-lg"></textarea>
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="input-thanks2">감사2</span>
+                            <textarea class="form-control" id="thanks2" name="thanks2" aria-label="thanks2" aria-describedby="inputGroup-sizing-lg"></textarea>
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="input-thanks3">감사3</span>
+                            <textarea class="form-control" id="thanks3" name="thanks3" aria-label="thanks3" aria-describedby="inputGroup-sizing-lg"></textarea>
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="input-penitence1">회개1</span>
+                            <textarea class="form-control" id="penitence1" name="penitence1" aria-label="penitence1" aria-describedby="inputGroup-sizing-lg"></textarea>
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="input-penitence2">회개2</span>
+                            <textarea class="form-control" id="penitence2" name="penitence2" aria-label="penitence2" aria-describedby="inputGroup-sizing-lg"></textarea>
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="input-penitence3">회개3</span>
+                            <textarea class="form-control" id="penitence3" name="penitence3" aria-label="penitence3" aria-describedby="inputGroup-sizing-lg"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" id="buttonContainer">
+<!--                    <button id="submit-daily-form" type="button" class="btn btn-outline-success" onclick="ajax_send(postList.dailyId)" value="call">저장</button>-->
+<!--                    <button id="modalCloseButton" type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteCheckDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCheckDropLabel">Daily 삭제하기</h5>
+                </div>
+                <div class="modal-body">
+                    <p>정말 지우시겠습니까?</p>
+                </div>
+                <div class="modal-footer" id="checkButtonContainer">
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Loading Bar -->
@@ -101,7 +164,7 @@
     // alert
     const Toast = Swal.mixin({
       toast: true,
-      position: 'center-center',
+      position: 'center',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
@@ -218,9 +281,26 @@
                                           "<li class='list-group-item'>" + "<p class='fw-lighter'>" + postList.penitence3 + "</p>" + "</li>" +
                                         "</ul>" +
                                         "<br/>" +
-                                        "<div style='display: flex; align-items: center;'>" +
-                                          "<div class='like-icon'>" + svgIcon + "</div>" +
-                                          "<p class='fw-lighter text-start like-count' style='margin: 0 0 0 8px;'>" + postList.dailyLikeCnt + "</p>" +
+                                        "<div style='display: flex; align-items: center; justify-content: space-between;'>" +
+                                            "<div style='display: flex; align-items: center;'>" +
+                                              "<div class='like-icon'>" + svgIcon + "</div>" +
+                                              "<p class='fw-lighter text-start like-count' style='margin: 0 0 0 8px;'>" + postList.dailyLikeCnt + "</p>" +
+                                            "</div>" +
+                                            "<div style='display: flex; align-items: center;'>" +
+                                                "<button class='btn btn-outline-success' style='margin: 0 8px 0 0;' onclick='buttonCreate(\"" + postList.dailyId + "\")' value='call'" +
+                                                        "data-bs-toggle='modal' " +
+                                                        "data-bs-target='#staticBackdrop' " +
+                                                        " data-itIsPublic" + postList.itIsPublic +
+                                                        " data-thanks1=" + postList.thanks1 +
+                                                        " data-thanks2=" + postList.thanks2 +
+                                                        " data-thanks3=" + postList.thanks3 +
+                                                        " data-penitence1=" + postList.penitence1 +
+                                                        " data-penitence2=" + postList.penitence2 +
+                                                        " data-penitence3=" + postList.penitence3 +">수정</button>" +
+                                                "<button class='btn btn-outline-success' style='margin: 0;' onclick='checkButtonCreate(\"" + postList.dailyId + "\")' value='call'" +
+                                                        "data-bs-toggle='modal' " +
+                                                        "data-bs-target='#deleteCheckDrop' " + ">삭제</button>" +
+                                            "</div>" +
                                         "</div>" +
                                     "</div>" +
                                 "</div>" +
@@ -243,6 +323,175 @@
               console.log(error);
             }
         });
+    }
+
+    // 모달이 열릴 때 이벤트를 감지하고 폼에 데이터를 채우는 함수
+    $('#staticBackdrop').on('show.bs.modal', function (event) {
+        // 클릭된 버튼을 가져옴
+        var button = $(event.relatedTarget);
+
+        // 버튼에 저장된 데이터를 가져옴
+        var itIsPublic = button.data('itIsPublic');
+        var thanks1 = button.data('thanks1');
+        var thanks2 = button.data('thanks2');
+        var thanks3 = button.data('thanks3');
+        var penitence1 = button.data('penitence1');
+        var penitence2 = button.data('penitence2');
+        var penitence3 = button.data('penitence3');
+
+        // 모달 내의 폼 필드를 가져옴
+        var modal = $(this);
+        modal.find('#itIsPublic').val(itIsPublic);
+        modal.find('#thanks1').val(thanks1);
+        modal.find('#thanks2').val(thanks2);
+        modal.find('#thanks3').val(thanks3);
+        modal.find('#penitence1').val(penitence1);
+        modal.find('#penitence2').val(penitence2);
+        modal.find('#penitence3').val(penitence3);
+    });
+
+    function buttonCreate(dailyId) {
+        document.getElementById('buttonContainer').innerHTML =
+            `<button id="submit-daily-form" type="button" class="btn btn-outline-success" onClick="ajax_send(${dailyId})" value="call">저장</button>
+             <button id="modalCloseButton" type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>`;
+    }
+
+    function checkButtonCreate(dailyId) {
+        console.log("checkButtonCreate " + dailyId);
+        document.getElementById('checkButtonContainer').innerHTML =
+            `<button id="submit-daily-form" type="button" class="btn btn-outline-success" onClick="ajax_send_delete(${dailyId})" value="call">삭제</button>
+             <button id="modalCloseButton" type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>`;
+    }
+
+    // Daily 수정내용 저장 ajax
+    function ajax_send(dailyId){
+
+        var dataSerialized = $("#daily-form");
+
+        var data = $("#daily-form").serializeObject();
+
+        var dataJson = JSON.stringify(data);
+
+        $.ajax({
+            url : '/daily/' + dailyId,
+            data : dataJson,
+            method : 'PUT',
+            contentType: 'application/json',
+            success : function(data){
+                $("#daily-form")[0].reset();
+
+                $('#staticBackdrop').modal('hide');
+
+                Toast.fire({
+                    icon: 'success',
+                    title: '정상적으로 등록하였습니다.'
+                });
+
+                $("#postList").empty();
+                postListDisplay(0, 5);
+            },
+
+            error : function(response, status, error){
+
+                if (response.status == 401) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: '로그인 후 글을 작성해주세요.'
+                    });
+                }
+
+                if (response.status == 400) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: '이미 오늘 작성된 글이 있습니다.'
+                    });
+                }
+
+                if (response.status == 412) {
+                    // 중복된 값을 제거하기 위한 Set 사용
+                    const uniqueMessages = new Set(Object.values(response.responseJSON.data));
+
+                    // Toast 제목에 작성
+                    const toastTitle = Array.from(uniqueMessages).join(', ');
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: toastTitle
+                    });
+                }
+
+                $("#daily-form")[0].reset();
+
+                $('#staticBackdrop').modal('hide');
+            },
+        });
+
+    }
+
+    // 직렬화 메서드
+    jQuery.fn.serializeObject = function() {
+        var obj = null;
+        try {
+            if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
+                var arr = this.serializeArray();
+                if (arr) {
+                    obj = {};
+                    jQuery.each(arr, function() {
+                        obj[this.name] = this.value;
+                    });
+                }
+            }
+        } catch (e) {
+            alert(e.message);
+        } finally {
+        }
+
+        return obj;
+    };
+
+    // Daily 삭제 ajax
+    function ajax_send_delete(dailyId){
+
+        var dataSerialized = $("#daily-form");
+
+        var data = $("#daily-form").serializeObject();
+
+        var dataJson = JSON.stringify(data);
+
+        $.ajax({
+            url : '/daily-delete/' + dailyId,
+            data : dataJson,
+            method : 'POST',
+            contentType: 'application/json',
+            success : function(data){
+                $("#daily-form")[0].reset();
+
+                $('#deleteCheckDrop').modal('hide');
+
+                Toast.fire({
+                    icon: 'success',
+                    title: '정상적으로 삭제하였습니다.'
+                });
+
+                $("#postList").empty();
+                postListDisplay(0, 5);
+            },
+
+            error : function(response, status, error){
+
+                if (response.status == 401) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: '로그인 후 글을 삭제해주세요.'
+                    });
+                }
+
+                $("#daily-form")[0].reset();
+
+                $('#deleteCheckDrop').modal('hide');
+            },
+        });
+
     }
 </script>
 </html>

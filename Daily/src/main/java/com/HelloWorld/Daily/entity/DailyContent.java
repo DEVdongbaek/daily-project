@@ -3,12 +3,14 @@ package com.HelloWorld.Daily.entity;
 import com.HelloWorld.Daily.dto.DailyDTO;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicUpdate
 public class DailyContent extends Common {
 
     @Id
@@ -40,5 +42,35 @@ public class DailyContent extends Common {
                 .penitence2(requestDTO.getPenitence2())
                 .penitence3(requestDTO.getPenitence3())
                 .build();
+    }
+
+    public void updateDailyContent(DailyDTO.RequestDTO requestDTO) {
+        if (requestDTO.getThanks1() != null) {
+            this.thanks1 = requestDTO.getThanks1();
+        }
+        if (requestDTO.getThanks2() != null) {
+            this.thanks2 = requestDTO.getThanks2();
+        }
+        if (requestDTO.getThanks3() != null) {
+            this.thanks3 = requestDTO.getThanks3();
+        }
+        if (requestDTO.getPenitence1() != null) {
+            this.penitence1 = requestDTO.getPenitence1();
+        }
+        if (requestDTO.getPenitence2() != null) {
+            this.penitence2 = requestDTO.getPenitence2();
+        }
+        if (requestDTO.getPenitence3() != null) {
+            this.penitence3 = requestDTO.getPenitence3();
+        }
+    }
+
+    public void deleteDailyContent(DailyDTO.RequestDTO requestDTO) {
+        this.thanks1 = null;
+        this.thanks2 = null;
+        this.thanks3 = null;
+        this.penitence1 = null;
+        this.penitence2 = null;
+        this.penitence3 = null;
     }
 }
